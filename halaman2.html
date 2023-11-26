@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    @keyframes birthdayAnimation {
+      0% {
+        transform: translateX(-20px); /* Start slightly to the left */
+        color: #FF88A3; /* A cute pink color */
+      }
+      25% {
+        transform: translateX(2px); /* Slightly slide to the right */
+        color: #FFB677; /* A soft, warm yellow color */
+      }
+      50% {
+        transform: translateX(0); /* Stay centered */
+        color: #FF8A7A; /* A cute salmon pink color */
+      }
+      75% {
+        transform: translateX(2px); /* Slightly slide to the right */
+        color: #FF69B4; /* A vibrant pink color */
+      }
+      100% {
+        transform: translateX(-20px); /* Slightly slide to the left */
+        color: #ADD8E6; /* A light blue color */
+      }
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      position: relative;
+      background: url('images/adel1.png') no-repeat center center fixed; /* Background image in the center, non-repeating, and fixed */
+      background-size: contain; /* Fit the image within the container without cropping */
+    }
+
+    .text-container {
+      position: absolute;
+      white-space: nowrap;
+      text-align: center; /* Center align the text */
+      top: 20px; /* Position the text 20px from the top */
+    }
+
+    .birthday-wish {
+      font-size: 36px;
+      animation: birthdayAnimation 5s;
+      overflow: hidden;
+      display: inline-block;
+      font-family: 'Comic Sans MS', cursive; /* Cute, playful font */
+      color: #FF88A3; /* Text color matching the animation */
+    }
+
+    .next-button {
+      background-color: #FF88A3; /* A cute pink color */
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      font-size: 24px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      opacity: 0; /* Initially, set the opacity to 0 */
+      position: fixed; /* Position the button fixed to the viewport */
+      bottom: 20px; /* Adjust the distance from the bottom as needed */
+      left: 50%; /* Center the button horizontally */
+      transform: translateX(-50%); /* Center the button horizontally */
+      font-family: 'Comic Sans MS', cursive; /* Cute, playful font for the button text */
+    }
+
+    .next-button:hover {
+      background-color: #FF69B4; /* Change the background color on hover to a cute pink color */
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background-color: #676D6E; /* A soft yellow background color */
+    }
+
+    .gif-container {
+      position: absolute;
+      left: 10px; /* Adjust the left position as needed */
+      top: 50%; /* Center vertically */
+      transform: translateY(-50%);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="text-container">
+      <div class="birthday-wish">Happy Birthday ADELLLL !</div>
+    </div>
+  </div>
+  <button class="next-button" onclick="window.location.href='halaman3.html'">:3</button>
+</body>
+<script>
+  const birthdayWish = document.querySelector('.birthday-wish');
+  const nextButton = document.querySelector('.next-button');
+  const messages = ['WISH YOU ALL THE BEST LOVE !! :3', 'have a fantastic day yaa !', 'cus today is all about YOU !!', 'I LOVE YOU SO SOO MUCHH <33', 'anw press the button to go on to the next page hshshs'];
+  let currentMessageIndex = 0;
+
+  birthdayWish.addEventListener('animationend', () => {
+    if (currentMessageIndex >= messages.length - 1) { // Check if it's the last text
+      nextButton.style.opacity = 1;
+    }
+    if (currentMessageIndex >= messages.length) {
+      currentMessageIndex = 0;
+    }
+    birthdayWish.textContent = messages[currentMessageIndex];
+    currentMessageIndex++;
+    birthdayWish.style.animation = 'none';
+    setTimeout(() => {
+      birthdayWish.style.animation = 'birthdayAnimation 5s';
+    }, 0);
+  });
+
+  function getRandomPositionForSides(container, side) {
+      const maxY = container.clientHeight - 200;
+      const y = Math.random() * maxY;
+      
+      if (side === 'left') {
+        return { x: 0, y };
+      } else if (side === 'right') {
+        const maxX = container.clientWidth - 200;
+        return { x: maxX, y };
+      }
+    }
+
+    const container = document.querySelector('.container');
+    const gifContainer = document.querySelector('.container');
+
+    for (let i = 0; i < 3; i++) {
+      const side = 'left';
+      const { x, y } = getRandomPositionForSides(container, side);
+
+      const gif = document.createElement('img');
+      gif.src = 'images/e707a499-0932-414f-aa9b-019414baf655.webp'; // Replace with your left-side GIF URL
+      gif.alt = 'GIF';
+      gif.width = 200;
+      gif.height = 200;
+      gif.style.position = 'absolute';
+      gif.style.left = `${x}px`;
+      gif.style.top = `${y}px`;
+
+      gifContainer.appendChild(gif);
+    }
+
+    for (let i = 0; i < 3; i++) {
+  const side = 'right';
+  const { x, y } = getRandomPositionForSides(container, side);
+
+  const gif = document.createElement('img');
+  gif.src = 'images/dec79e8a-5f7a-4519-bb19-cf00e6a4e90d.webp'; // Corrected path
+  gif.alt = 'GIF';
+  gif.width = 200;
+  gif.height = 200;
+  gif.style.position = 'absolute';
+  gif.style.left = `${x}px`;
+  gif.style.top = `${y}px`;
+
+  gifContainer.appendChild(gif);
+}
+
+function getRandomPositionWithoutOverlap(container, side, existingGifs) {
+  const maxWidth = container.offsetWidth;
+  const maxHeight = container.offsetHeight;
+  const minDistance = 100; // Minimum distance between GIFs
+
+  for (let i = 0; i < 10; i++) {
+    // Generate random positions
+    const x = side === 'right' ? maxWidth - 200 : 0; // Adjust as needed for left/right
+    const y = Math.random() * (maxHeight - 200);
+
+    // Check if the new GIF overlaps with existing GIFs
+    let overlap = false;
+    for (const gif of existingGifs) {
+      const rect1 = { x, y, width: 200, height: 200 };
+      const rect2 = gif.getBoundingClientRect();
+
+      if (
+        x + rect1.width > rect2.left &&
+        x < rect2.left + rect2.width &&
+        y + rect1.height > rect2.top &&
+        y < rect2.top + rect2.height
+      ) {
+        overlap = true;
+        break;
+      }
+    }
+
+    if (!overlap) {
+      return { x, y };
+    }
+  }
+
+  return null; // If we can't find a non-overlapping position after 10 tries, return null
+}
+
+
+</script>
+</html>
