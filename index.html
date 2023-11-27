@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cute Page</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <style>
         body {
             margin: 0;
@@ -207,6 +208,10 @@
                 return minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
             }
         });
+
+        function loadPage(url) {
+            $('#content').load(url);
+        }
     </script>
 </body>
 
