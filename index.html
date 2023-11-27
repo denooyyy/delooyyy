@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cute Page</title>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <style>
         body {
             margin: 0;
@@ -139,11 +138,14 @@
         </div>
         <div id="content">
             <h1>Halo !!!</h1>
-            <button onclick="loadPage('halaman2.html')">WOMP</button>
+            <button onclick="window.location.href='halaman2.html'">WOMP</button>
         </div>
     </div>
 
     <script>
+
+
+
         document.addEventListener('DOMContentLoaded', function () {
             const songSelect = document.getElementById('song-select');
             const audioPlayer = document.getElementById('audio-player');
@@ -218,11 +220,9 @@
                 const seconds = Math.floor(time % 60);
                 return minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
             }
+
         });
 
-        function loadPage(url) {
-            $('#content').load(url);
-        }
     </script>
 </body>
 
