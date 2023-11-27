@@ -141,47 +141,70 @@
             <button onclick="window.location.href='halaman2.html'">WOMP</button>
         </div>
         <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const songSelect = document.getElementById('song-select');
-                const audioPlayer = document.getElementById('audio-player');
-                const playBtn = document.getElementById('play-btn');
-                const progressBar = document.getElementById('progress-bar');
-                const currentProgress = document.getElementById('current-progress');
-                const timeDisplay = document.getElementById('time');
-    
-                let isPlaying = false;
-    
-                playBtn.addEventListener('click', togglePlayPause);
-    
-                function togglePlayPause() {
-                    if (isPlaying) {
-                        audioPlayer.pause();
-                    } else {
-                        audioPlayer.play();
-                    }
-                    isPlaying = !isPlaying;
-                }
-    
-                songSelect.addEventListener('change', function () {
-                    const selectedSong = songSelect.value;
-                    audioPlayer.src = selectedSong;
+           document.addEventListener('DOMContentLoaded', function () {
+            const songSelect = document.getElementById('song-select');
+            const audioPlayer = document.getElementById('audio-player');
+            const playBtn = document.getElementById('play-btn');
+            const progressBar = document.getElementById('progress-bar');
+            const currentProgress = document.getElementById('current-progress');
+            const timeDisplay = document.getElementById('time');
+
+            // Check for stored song data
+            const storedSong = sessionStorage.getItem('selectedSong') || songSelect.value;
+            const storedIsPlaying = sessionStorage.getItem('isPlaying') === 'true';
+
+            // Set the stored song and play/pause status
+            songSelect.value = storedSong;
+            audioPlayer.src = storedSong;
+            isPlaying = storedIsPlaying;
+
+            // Update play button icon based on stored play/pause status
+            updatePlayPauseIcon();
+
+            playBtn.addEventListener('click', togglePlayPause);
+            songSelect.addEventListener('change', updateSelectedSong);
+            audioPlayer.addEventListener('timeupdate', updateProgressBar);
+
+            // Function to toggle play/pause
+            function togglePlayPause() {
+                if (isPlaying) {
+                    audioPlayer.pause();
+                } else {
                     audioPlayer.play();
-                });
-    
-                audioPlayer.addEventListener('timeupdate', updateProgressBar);
-    
-                function updateProgressBar() {
-                    const percentage = (audioPlayer.currentTime / audioPlayer.duration) * 100;
-                    currentProgress.style.width = `${percentage}%`;
-                    updateTimeDisplay();
                 }
-    
-                function updateTimeDisplay() {
-                    const minutes = Math.floor(audioPlayer.currentTime / 60);
-                    const seconds = Math.floor(audioPlayer.currentTime % 60);
-                    timeDisplay.innerText = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-                }
-            });
+                isPlaying = !isPlaying;
+                updatePlayPauseIcon();
+            }
+
+            // Function to update the play button icon
+            function updatePlayPauseIcon() {
+                playBtn.textContent = isPlaying ? '⏸️' : '▶️';
+            }
+
+            // Function to update the selected song
+            function updateSelectedSong() {
+                const selectedSong = songSelect.value;
+                audioPlayer.src = selectedSong;
+                audioPlayer.play();
+                sessionStorage.setItem('selectedSong', selectedSong);
+            }
+
+            // Function to update the progress bar
+            function updateProgressBar() {
+                const percentage = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+                currentProgress.style.width = percentage + '%';
+                const currentTime = formatTime(audioPlayer.currentTime);
+                const duration = formatTime(audioPlayer.duration);
+                timeDisplay.textContent = currentTime + ' / ' + duration;
+            }
+
+            // Function to format time in mm:ss format
+            function formatTime(time) {
+                const minutes = Math.floor(time / 60);
+                const seconds = Math.floor(time % 60);
+                return minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+            }
+        });
         </script>
     </body>
     
