@@ -134,12 +134,14 @@
                 </div>
                 <div id="time">0:00</div>
             </div>
-            <audio id="audio-player" autoplay loop>
+            <audio id="audio-player">
                 <!-- The selected song will be loaded here -->
             </audio>
         </div>
-        <h1>Halo !!!</h1>
-        <button onclick="window.location.href='halaman2.html'">WOMP</button>
+        <div id="content">
+            <h1>Halo !!!</h1>
+            <button onclick="loadPage('halaman2.html')">WOMP</button>
+        </div>
     </div>
 
     <script>
@@ -166,6 +168,16 @@
             playBtn.addEventListener('click', togglePlayPause);
             songSelect.addEventListener('change', updateSelectedSong);
             audioPlayer.addEventListener('timeupdate', updateProgressBar);
+
+             // Function to load content dynamically without full page reload
+             window.loadPage = function (url) {
+                fetch(url)
+                    .then(response => response.text())
+                    .then(data => {
+                        document.getElementById('content').innerHTML = data;
+                    })
+                    .catch(error => console.error('Error:', error));
+            };
 
             // Function to toggle play/pause
             function togglePlayPause() {
