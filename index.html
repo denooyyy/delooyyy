@@ -133,15 +133,16 @@
                 </div>
                 <div id="time">0:00</div>
             </div>
-            <audio id="audio-player">
+            <audio id="audio-player" autoplay loop>
                 <!-- The selected song will be loaded here -->
             </audio>
         </div>
         <h1>Halo !!!</h1>
-            <button onclick="window.location.href='halaman2.html'">WOMP</button>
-        </div>
-        <script>
-           document.addEventListener('DOMContentLoaded', function () {
+        <button onclick="window.location.href='halaman2.html'">WOMP</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
             const songSelect = document.getElementById('song-select');
             const audioPlayer = document.getElementById('audio-player');
             const playBtn = document.getElementById('play-btn');
@@ -174,6 +175,7 @@
                 }
                 isPlaying = !isPlaying;
                 updatePlayPauseIcon();
+                sessionStorage.setItem('isPlaying', isPlaying.toString());
             }
 
             // Function to update the play button icon
@@ -205,8 +207,8 @@
                 return minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
             }
         });
-        </script>
-    </body>
-    
-    </html>
+    </script>
+</body>
+
+</html>
     
